@@ -1,0 +1,7 @@
+DELETE http://localhost/events/134
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZ2VkMkBnbWFpbC5jb20iLCJleHAiOjE3MjMxODA4ODMsImlhdCI6MTcyMzA5NDQ4MywidXNlcklkIjoyNn0.hcHy9QoMGizaNt7SD-jFRpipRnGjVDXfsn0wI2TpSxY
+
+{
+    "id": 44
+}

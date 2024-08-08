@@ -1,0 +1,2 @@
+GET http://localhost/events
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZ2VkMkBnbWFpbC5jb20iLCJleHAiOjE3MjMxNzgwNTcsImlhdCI6MTcyMzA5MTY1NywiaWQiOjI2fQ.6pQjZc0j0EjAUIMc9FR5VguColu3699GFb5JrSfKcH4

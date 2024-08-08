@@ -1,0 +1,10 @@
+PUT http://localhost/events/136
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hZ2VkMkBnbWFpbC5jb20iLCJleHAiOjE3MjMxODA4ODMsImlhdCI6MTcyMzA5NDQ4MywidXNlcklkIjoyNn0.hcHy9QoMGizaNt7SD-jFRpipRnGjVDXfsn0wI2TpSxY
+
+{
+    "name": "asd Event",
+	"description": "best event of all time",
+	"location": "some street",
+	"date": "2006-01-02T15:04:05Z"
+}
