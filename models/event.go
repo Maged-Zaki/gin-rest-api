@@ -17,11 +17,11 @@ type Event struct {
 	UserID      int64     `json:"userId"`
 }
 
-func (e *Event) Save() error {
+func (event *Event) Save() error {
 	query := "INSERT INTO events(name, description, location, date, user_id) VALUES(?, ?, ?, ?, ?) RETURNING id"
 
 	// Execute query and scan the returned id
-	err := db.DB.QueryRow(query, e.Name, e.Description, e.Location, e.Date, e.UserID).Scan(&e.ID)
+	err := db.DB.QueryRow(query, event.Name, event.Description, event.Location, event.Date, event.UserID).Scan(&event.ID)
 	if err != nil {
 		return err
 	}
@@ -29,11 +29,11 @@ func (e *Event) Save() error {
 	return nil
 }
 
-func (e *Event) Update() error {
+func (event *Event) Update() error {
 	query := "UPDATE events SET name=?, description=?, location=?, date=? WHERE id=?"
 
 	// Execute query
-	result, err := db.DB.Exec(query, e.Name, e.Description, e.Location, e.Date, e.ID)
+	result, err := db.DB.Exec(query, event.Name, event.Description, event.Location, event.Date, event.ID)
 	if err != nil {
 		return err
 	}
@@ -51,11 +51,11 @@ func (e *Event) Update() error {
 
 	return nil
 }
-func (e *Event) Delete() error {
+func (event *Event) Delete() error {
 	query := "DELETE FROM events WHERE id=?"
 
 	// Execute query
-	result, err := db.DB.Exec(query, e.ID)
+	result, err := db.DB.Exec(query, event.ID)
 	if err != nil {
 		return err
 	}

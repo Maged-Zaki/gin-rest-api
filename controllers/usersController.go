@@ -12,13 +12,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Signup(c *gin.Context) {
+func Signup(context *gin.Context) {
 	var User models.User
 
 	// Bind the JSON data to the user struct
-	err := c.ShouldBindJSON(&User)
+	err := context.ShouldBindJSON(&User)
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": err.Error(),
 		})
 		return
@@ -26,14 +26,14 @@ func Signup(c *gin.Context) {
 
 	User.Password, err = utils.HashPassword(User.Password)
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": "Error hashing password: " + err.Error(),
 		})
 	}
 
 	err = User.Save()
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": err.Error(),
 		})
 		return
@@ -41,15 +41,15 @@ func Signup(c *gin.Context) {
 
 	response := utils.FormatResponse("Created Successfully", User)
 
-	c.JSON(http.StatusCreated, response)
+	context.JSON(http.StatusCreated, response)
 }
 
-func Login(c *gin.Context) {
+func Login(context *gin.Context) {
 	var user models.User
 
-	err := c.ShouldBindJSON(&user)
+	err := context.ShouldBindJSON(&user)
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": "Error binding JSON: " + err.Error(),
 		})
 		return
@@ -57,7 +57,7 @@ func Login(c *gin.Context) {
 
 	err = user.ValidateCredentials()
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": "Error validating user credentials: " + err.Error(),
 		})
 		return
@@ -72,7 +72,7 @@ func Login(c *gin.Context) {
 
 	token, err := utils.GenerateToken(secretKey, claims)
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": "Error generating token: " + err.Error(),
 		})
 		return
@@ -82,16 +82,16 @@ func Login(c *gin.Context) {
 		"token": token,
 	})
 
-	c.JSON(200, response)
+	context.JSON(200, response)
 }
 
-func DeleteUser(c *gin.Context) {
-	idStr := c.Param("id")
+func DeleteUser(context *gin.Context) {
+	idStr := context.Param("id")
 
 	id, err := strconv.ParseInt(idStr, 10, 64)
 
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": fmt.Sprintf("%s is not a valid id", idStr),
 		})
 		return
@@ -102,7 +102,7 @@ func DeleteUser(c *gin.Context) {
 	err = user.Delete()
 
 	if err != nil {
-		c.JSON(400, gin.H{
+		context.JSON(400, gin.H{
 			"message": "Error Deleting: " + err.Error(),
 		})
 		return
@@ -110,5 +110,5 @@ func DeleteUser(c *gin.Context) {
 
 	response := utils.FormatResponse("Deleted Successfully", nil)
 
-	c.JSON(200, response)
+	context.JSON(200, response)
 }

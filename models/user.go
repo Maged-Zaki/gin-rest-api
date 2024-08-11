@@ -14,22 +14,22 @@ type User struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func (u *User) Save() error {
+func (user *User) Save() error {
 	query := "INSERT INTO users(email, password) VALUES(?, ?) RETURNING id"
 
 	// Execute query and scan the returned id
-	err := db.DB.QueryRow(query, u.Email, u.Password).Scan(&u.ID)
+	err := db.DB.QueryRow(query, user.Email, user.Password).Scan(&user.ID)
 	if err != nil {
 		return err
 	}
 
 	return nil
 }
-func (u *User) Delete() error {
+func (user *User) Delete() error {
 	query := "DELETE FROM users WHERE id=?"
 
 	// Execute query and scan the returned id
-	result, err := db.DB.Exec(query, u.ID)
+	result, err := db.DB.Exec(query, user.ID)
 	if err != nil {
 		return err
 	}
@@ -60,12 +60,12 @@ func (u *User) Delete() error {
 
 //		return u, nil
 //	}
-func (u *User) ValidateCredentials() error {
+func (user *User) ValidateCredentials() error {
 	query := "SELECT id, email, password FROM users WHERE email = ?"
 
 	var dbUser User
 
-	err := db.DB.QueryRow(query, u.Email).Scan(&dbUser.ID, &dbUser.Email, &dbUser.Password)
+	err := db.DB.QueryRow(query, user.Email).Scan(&dbUser.ID, &dbUser.Email, &dbUser.Password)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			// random hash for non-existent user to avoid timing attacks
@@ -75,12 +75,12 @@ func (u *User) ValidateCredentials() error {
 		}
 	} else {
 		// User exists, assign values to the receiver
-		u.ID = dbUser.ID
-		u.Email = dbUser.Email
+		user.ID = dbUser.ID
+		user.Email = dbUser.Email
 	}
 
 	// Compare password
-	isCorrectPassword := utils.CheckPasswordHash(dbUser.Password, u.Password)
+	isCorrectPassword := utils.CheckPasswordHash(dbUser.Password, user.Password)
 	if !isCorrectPassword {
 		return fmt.Errorf("incorrect email or password")
 	}
