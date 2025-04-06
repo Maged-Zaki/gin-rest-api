@@ -23,18 +23,9 @@ jobs:
 
   deploy_to_ec2:
     docker:
-      - image: circleci/python:3.8
+      - image: cimg/base:current
     steps:
       - checkout
-      - run:
-          name: Install AWS CLI
-          command: pip install awscli
-      - run:
-          name: Configure AWS CLI
-          command: |
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set default.region $AWS_DEFAULT_REGION
       - run:
           name: Connect to EC2, Pull and Run Docker Image
           command: |
